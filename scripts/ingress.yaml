@@ -1,0 +1,25 @@
+controller:
+  kind: "DaemonSet"
+  ingressClass: "nginx"
+  hostNetwork: true
+  hostPort:
+    enabled: true
+  reportNodeInternalIp: true
+  dnsPolicy: "ClusterFirstWithHostNet"
+  service:
+    enabled: true
+    type: "ClusterIP"
+  extraArgs:
+  config:
+    server-tokens: "false"
+    use-http2: "false"
+    use-geoip: "false"
+    proxy-body-size: "128m"
+    proxy-buffer-size: "8k"
+    proxy-buffers-number: "8"
+    use-forwarded-headers: "true"
+    disable-ipv6: "true"
+    disable-ipv6-dns: "true"
+defaultBackend:
+  enabled: true
+  
