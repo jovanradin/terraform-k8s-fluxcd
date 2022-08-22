@@ -59,9 +59,69 @@ terraform destroy -auto-approve
 
 # FluxCD
 
-Fluxcd is created using remote-exec provider and flux command, it is much simpler than with kubernetes provider
+Fluxcd is created using remote-exec provider and flux command, for single deployment kubernetes terraform provider is not used
 
 After deployment is created and github repo is created it can be tested with simple deployment:
 
-upload sample app yaml in monitored folder on repo, after some time sample app will be deployed on cluster
+- upload sample app yaml in monitored folder on repo, after some time sample app will be deployed on cluster
+
+example yaml:
+
+```yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello-world
+
+---
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: hello-app
+  namespace: hello-world
+  labels:
+    app: hello
+spec:
+  containers:
+    - name: hello-app-name
+      image: hashicorp/http-echo
+      args:
+        - "-text=hello"
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-service
+  namespace: hello-world
+spec:
+  selector:
+    app: hello
+  ports:
+    - port: 5678 # Default port for image
+    
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: helloworld-ingress
+  namespace: hello-world
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+        - path: /hello
+          pathType: Prefix
+          backend:
+            service:
+              name: hello-service
+              port:
+                number: 5678
+          path: /
+```
 
