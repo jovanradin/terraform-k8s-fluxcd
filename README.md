@@ -3,10 +3,10 @@
 ## What this module provides:
 
 - Creates 2 Virtual machines
-- Install all necessery components for creating cluster
-- Create cluster consisting of one master/cp node and one worker node
+- Installs all necessery components for creating cluster
+- Creates cluster consisting of one master/cp node and one worker node
 - For network stack Calico is used
-- Latest version od ingress/Nginx is deployed
+- Latest version of ingress/Nginx is deployed
 - Fluxcd is deployed (it will create private repo on account addedd in variables.tf)
 
 ## Tested on Ubuntu 20.04
