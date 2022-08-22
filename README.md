@@ -13,6 +13,12 @@
 
 Image used for creating VMs is [base Ubuntu box] (https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64-disk-kvm.img)
 
+Image is needed in folder from where terraform is run, it can be downloaded every time, with a change in main.tf, line where is source image.
+
+For provisioning outside from linux box uri in main.tf should be changed in something like:
+
+uri   = "qemu+ssh://root@ip_address/system"
+
 ## Prerequests
 
 Install libvirt:
@@ -48,7 +54,7 @@ terraform plan
 terraform apply
 ```
 
-**NB** if you have errors alike `Could not open '/var/lib/libvirt/images/terraform_example_root.img': Permission denied'` you need to reconfigure libvirt by setting `security_driver = "none"` in `/etc/libvirt/qemu.conf` and restart libvirt with `sudo systemctl restart libvirtd`.
+**permission errors** if you have errors alike `Could not open '/var/lib/libvirt/images/terraform_example_root.img': Permission denied'` you need to reconfigure libvirt by setting `security_driver = "none"` in `/etc/libvirt/qemu.conf` and restart libvirt with `sudo systemctl restart libvirtd`.
 
 
 ##Destroy the infrastructure:
@@ -59,7 +65,7 @@ terraform destroy -auto-approve
 
 # FluxCD
 
-Fluxcd is created using remote-exec provider and flux command, for single deployment kubernetes terraform provider is not used
+Fluxcd is created using remote-exec provider and flux command, kubernetes provider is not used and flux command is available on cp node for watching logs etc.
 
 After deployment is created and github repo is created it can be tested with simple deployment:
 
@@ -122,6 +128,14 @@ spec:
               name: hello-service
               port:
                 number: 5678
-          path: /
 ```
 
+- or just a sample namespace:
+
+```yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: best-namespace-ever
+```yaml

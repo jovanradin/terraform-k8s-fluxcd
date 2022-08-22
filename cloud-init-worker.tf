@@ -17,6 +17,7 @@ data "template_cloudinit_config" "init_config_worker" {
     content      = data.template_file.init_config_worker.rendered
   }
 
+  #not tested TO DO 
   # part {
   #   content_type = "text/x-shellscript"
   #   content      = "somescript1"

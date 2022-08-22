@@ -42,5 +42,5 @@ resource "null_resource" "ubuntu-worker" {
       "/tmp/init-worker.sh"
     ]
   }
-  depends_on = [null_resource.ubuntu-master]  
+  depends_on = [null_resource.ubuntu-master]  #depends on master creation
 }

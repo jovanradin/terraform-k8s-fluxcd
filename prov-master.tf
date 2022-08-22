@@ -1,3 +1,4 @@
+#null_resource is used for sending files and running scripts an commands on remote machines
 resource "null_resource" "ubuntu-master" {
 
     connection {
@@ -26,7 +27,7 @@ resource "null_resource" "ubuntu-master" {
   }
 
   provisioner "file" {
-    destination = "/tmp/calico.yaml"   #downloaded from https://docs.projectcalico.org/manifests/calico.yaml
+    destination = "/tmp/calico.yaml"   #downloaded from https://docs.projectcalico.org/manifests/calico.yaml without changes
     content = file("${path.module}/scripts/calico.yaml")
   }
 
@@ -49,7 +50,4 @@ resource "null_resource" "ubuntu-master" {
   }  
 }
 
-# output "run_dockerkube" {
-#   value="/bin/bash /tmp/dockerkube.sh"
-# }
 

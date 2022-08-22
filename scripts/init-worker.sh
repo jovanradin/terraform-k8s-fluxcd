@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo chmod 600 /tmp/id_rsa
+sudo chmod 600 /tmp/id_rsa # we will use same key from machine where libvirt is running
 a=$(ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa 10.10.7.11 openssl x509 -pubkey \
 -in /etc/kubernetes/pki/ca.crt | openssl rsa \
 -pubin -outform der 2>/dev/null | openssl dgst \
@@ -12,4 +12,4 @@ sudo kubeadm join \
 k8sm:6443 \
 --discovery-token-ca-cert-hash \
 sha256:${sha_256}
-
+sudo rm -f /tmp/id_rsa # we don't want our private key on any machine
